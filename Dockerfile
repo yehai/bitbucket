@@ -45,6 +45,8 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     mkdir -p ${BITBUCKET_HOME} && \
     mkdir -p /opt && \
     mv /tmp/bitbucket /opt/bitbucket && \
+    rm -f                                               \
+    ${BITBUCKET_INSTALL}/app/WEB-INF/lib/atlassian-extras-decoder-v2-*.*.*.jar &&  \
     # Install database drivers
     rm -f                                               \
       ${BITBUCKET_INSTALL}/lib/mysql-connector-java*.jar &&  \
@@ -70,6 +72,8 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     chown -R bitbucket:bitbucket /home/${CONTAINER_USER} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_HOME} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_INSTALL}
+
+COPY ./${BITBUCKET_VERSION}/*.jar "${BITBUCKET_INSTALL}/app/WEB-INF/lib/"
 
 RUN mkdir -p ${BITBUCKET_BACKUP_CLIENT_HOME} && \
     wget -O /tmp/bitbucket-backup-distribution.zip \
