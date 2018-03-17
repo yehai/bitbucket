@@ -77,6 +77,9 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
 
 COPY ./${BITBUCKET_VERSION}/atlassian-extras-decoder-v2-*.jar "${BITBUCKET_INSTALL}/app/WEB-INF/lib/"
 COPY ./${BITBUCKET_VERSION}/atlassian-universal-plugin-manager-plugin-*.jar "${BITBUCKET_INSTALL}/app/WEB-INF/atlassian-bundled-plugins/"
+COPY ./hipchat.phoneyou.net.crt /tmp/
+
+RUN keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias hipchat.phoneyou.net -file /tmp/hipchat.phoneyou.net.crt 
 
 RUN mkdir -p ${BITBUCKET_BACKUP_CLIENT_HOME} && \
     wget -O /tmp/bitbucket-backup-distribution.zip \
